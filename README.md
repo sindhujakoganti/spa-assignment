@@ -6,13 +6,13 @@ Pre-requisites:
 2. Yarn
 
 Clone the repo by running below command:
-git clone https://github.com/sindhujakoganti/spa-assignment.git
+cmd> git clone https://github.com/sindhujakoganti/spa-assignment.git
 
 Change the directory using below command:
-cd spa-assignment
+cmd> cd spa-assignment
 
 Start the application by running below command:
-yarn && yarn start
+cmd> yarn && yarn start
 
 React app will run in URL: http://localhost:3000/
 NodeJs server will run in URL: http://localhost:9000/
@@ -21,11 +21,9 @@ click on Login Page -
 please enter the valid user name and user id and then click on Submit Button.
 
 Sample users Available in Database - 
-username - srikanth 
-userid - 1
+userid - 1, username - srikanth
 
-username - sindhuja 
-userid - 2
+userid - 2, username - sindhuja
 
 Please use any of the above mentioned users to login.
 
@@ -44,6 +42,11 @@ Cards on top that shows the information of Tasks:
 1. Tasks Completed
 2. Latest 3 Tasks
 3. Task Progress
+
+#Api-Docs:
+URL: http://localhost:9000/api-docs
+First login with **/login** url and save the access-token returned in the response, which can be used for all other api-calls.
+Using the access-token generated through **/login** api, we can hit the other APIs as per the swagger spec and play around with those APIs
 
 #TODO:
 1. Design improvements using CSS
