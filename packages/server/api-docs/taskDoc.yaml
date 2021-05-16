@@ -1,0 +1,205 @@
+openapi: 3.0.0
+info:
+  title: SPA
+  version: 1.0.0
+servers:
+  - url: http://localhost:9000
+paths:
+  /login:
+    post:
+      tags:
+        - login
+      summary: Login into the system
+      operationId: login
+      requestBody:
+        description: The name and apiKey that you received from the recruiter
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+        required: true
+      responses:
+        200:
+          description: successgul operation
+          content: {}
+        404:
+          description: not found
+          content: {}
+      x-codegen-request-body-name: body
+  /tasks:
+    get:
+      tags:
+        - Tasks
+      summary: Get All Tasks
+      description: Retrieve all tasks data
+      operationId: getTask
+      parameters:
+        - name: taskName
+          in: query
+          description: Search By Task Name
+          schema:
+            type: string
+        - name: x-access-token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        404:
+          description: not found
+          content: {}
+      x-codegen-request-body-name: body
+    post:
+      tags:
+        - Tasks
+      summary: task creation by userId
+      operationId: taskCreation
+      parameters:
+        - name: x-access-token
+          in: header
+          required: true
+          schema:
+            type: string
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskCreation"
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content: {}
+        400:
+          description: Invalid status value
+          content: {}
+      x-codegen-request-body-name: isCompleted
+  /tasks/{taskId}/user/{userId}:
+    put:
+      tags:
+        - Tasks
+      summary: task update by userId
+      operationId: taskUpdate
+      parameters:
+        - name: x-access-token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: taskId
+          in: path
+          description: task id
+          required: true
+          schema:
+            type: number
+        - name: userId
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateTask"
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content: {}
+        400:
+          description: Invalid status value
+          content: {}
+      x-codegen-request-body-name: isCompleted
+    delete:
+      tags:
+        - Tasks
+      summary: Deletes a Task
+      operationId: deleteTask
+      parameters:
+        - name: x-access-token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: taskId
+          in: path
+          description: Task id to delete
+          required: true
+          schema:
+            type: integer
+        - name: userId
+          in: path
+          description: User id to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Task Id not found
+          content: {}
+      security: []
+components:
+  schemas:
+    TaskCreation:
+      type: object
+      properties:
+        taskId:
+          type: number
+        userId:
+          type: number
+        taskName:
+          type: string
+        isCompleted:
+          type: number
+    Task:
+      type: object
+      properties:
+        userId:
+          type: integer
+        taskId:
+          type: number
+        taskName:
+          type: string
+        modifedDate:
+          type: string
+        createdDate:
+          type: string
+    updateTask:
+      required:
+        - taskName
+        - isCompleted
+      type: object
+      properties:
+        taskName:
+          type: string
+        isCompleted:
+          type: number
+          example: 0, 1
+    Login:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+          example: doggie
+  securitySchemes:
+    x-access-token:
+      type: apiKey
+      name: x-access-token
+      in: header
